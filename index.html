@@ -37,7 +37,9 @@
 
       --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-pill: 9999px;
 
-      --ease: cubic-bezier(0.25, 1, 0.5, 1);
+      --ease:      cubic-bezier(0.25, 1, 0.5, 1);
+      --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-quint:cubic-bezier(0.22, 1, 0.36, 1);
       --fast: 150ms; --base: 220ms;
 
       --max-w: 1200px;
@@ -538,10 +540,135 @@
     }
     .ftr-bottom a { color: oklch(0.560 0.010 56); }
 
+    /* ── Animation keyframes ─────────────────────────────────────── */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes card-rise {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scan-line {
+      0%   { transform: translateY(-3px); opacity: 0; }
+      4%   { opacity: 1; }
+      92%  { opacity: 0.5; }
+      100% { transform: translateY(600px); opacity: 0; }
+    }
+    @keyframes orb-breathe {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.65; }
+    }
+    @keyframes seal-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 oklch(0.620 0.172 56 / 0); }
+      50%       { box-shadow: 0 0 0 6px oklch(0.620 0.172 56 / 0.25); }
+    }
+    @keyframes reveal-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes reveal-left {
+      from { opacity: 0; transform: translateX(-16px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ── Hero entrance sequence ───────────────────────────────────── */
+    .hero-location {
+      animation: fade-up 380ms var(--ease-expo) 50ms both;
+    }
+    .hero-heading {
+      animation: fade-up 620ms var(--ease-expo) 140ms both;
+    }
+    .hero-tagline {
+      /* filled by typewriter JS; base visible for no-JS */
+    }
+    .hero-cards .hero-card:nth-child(1) { animation: card-rise 480ms var(--ease-quint) 480ms both; }
+    .hero-cards .hero-card:nth-child(2) { animation: card-rise 480ms var(--ease-quint) 600ms both; }
+    .hero-cards .hero-card:nth-child(3) { animation: card-rise 480ms var(--ease-quint) 720ms both; }
+
+    /* ── Hero scan line ───────────────────────────────────────────── */
+    .hero::after {
+      content: '';
+      position: absolute; left: 0; right: 0; top: 0; height: 2px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        oklch(0.900 0.090 62 / .8) 45%,
+        oklch(1.000 0.000 0 / .6) 50%,
+        oklch(0.900 0.090 62 / .8) 55%,
+        transparent 100%
+      );
+      pointer-events: none; z-index: 3;
+      animation: scan-line 1.5s var(--ease-expo) 0.05s forwards;
+    }
+
+    /* ── Hero orb ambient breathing ───────────────────────────────── */
+    .hero::before {
+      animation: orb-breathe 9s ease-in-out infinite;
+    }
+
+    /* ── Canvas ───────────────────────────────────────────────────── */
+    #hero-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Logo seal hover glow ─────────────────────────────────────── */
+    .logo:hover .logo-seal {
+      animation: seal-pulse 1.8s ease-in-out infinite;
+    }
+
+    /* ── Pay Bill button enhanced hover ───────────────────────────── */
+    .btn-primary {
+      transition: filter var(--fast) var(--ease), transform var(--fast) var(--ease);
+    }
+    .btn-primary:hover {
+      filter: brightness(.9);
+      transform: translateY(-1px);
+      color: white;
+      text-decoration: none;
+    }
+
+    /* ── Service link icon hover ──────────────────────────────────── */
+    .svc-link svg {
+      transition: transform 200ms var(--ease), color 200ms var(--ease);
+    }
+    .svc-link:hover svg { transform: scale(1.18); }
+
+    /* ── Dept card hover glow ─────────────────────────────────────── */
+    .dept-card {
+      transition: box-shadow 200ms var(--ease), transform 200ms var(--ease);
+    }
+    .dept-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px oklch(0.200 0.060 252 / .5);
+    }
+
+    /* ── Scroll reveal ────────────────────────────────────────────── */
+    .rv {
+      /* visible by default; JS marks off-screen ones with .rv-hidden */
+    }
+    .rv.rv-hidden {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    .rv.rv-hidden.rv-left {
+      transform: translateX(-14px);
+    }
+    .rv.rv-visible {
+      animation: reveal-up 420ms var(--ease-quint) both;
+    }
+    .rv.rv-hidden.rv-left.rv-visible {
+      animation: reveal-left 420ms var(--ease-quint) both;
+    }
+
     /* ── Reduced motion ──────────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
       html { scroll-behavior: auto; }
+      .hero::after { display: none; }
+      #hero-canvas { display: none; }
+      .rv.rv-hidden { opacity: 1 !important; transform: none !important; }
     }
   </style>
 </head>
@@ -618,6 +745,7 @@
 
     <!-- Hero -->
     <section class="hero" aria-labelledby="hero-h1">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
       <div class="wrap">
         <span class="hero-location">Knox County &middot; Texas</span>
         <h1 class="hero-heading" id="hero-h1">City of Munday</h1>
@@ -660,32 +788,32 @@
         <h2 class="services-heading" id="svc-h2">City Services</h2>
         <div class="services-grid">
 
-          <a href="/services/utilities/" class="svc-link">
+          <a href="/services/utilities/" class="svc-link rv rv-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
             <span class="svc-label">Utilities &amp; Water</span>
           </a>
 
-          <a href="/government/permits/" class="svc-link">
+          <a href="/government/permits/" class="svc-link rv rv-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             <span class="svc-label">Permits &amp; Licenses</span>
           </a>
 
-          <a href="/community/parks/" class="svc-link">
+          <a href="/community/parks/" class="svc-link rv rv-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8C8 10 5.9 16.17 3.82 22H5.8c.37-1 .8-1.97 1.2-2.82C9.75 19.72 14.5 19 19 20.5V19c-3-.5-5.5-1.5-7.5-3C14 14 17 11 17 8z"/></svg>
             <span class="svc-label">Parks &amp; Recreation</span>
           </a>
 
-          <a href="/services/trash/" class="svc-link">
+          <a href="/services/trash/" class="svc-link rv rv-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
             <span class="svc-label">Trash &amp; Recycling</span>
           </a>
 
-          <a href="/government/agendas/" class="svc-link">
+          <a href="/government/agendas/" class="svc-link rv rv-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
             <span class="svc-label">Meeting Minutes</span>
           </a>
 
-          <a href="/report/" class="svc-link">
+          <a href="/report/" class="svc-link rv rv-left">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
             <span class="svc-label">Report an Issue</span>
           </a>
@@ -705,7 +833,7 @@
             <a href="/news/">All news &rarr;</a>
           </div>
 
-          <a href="/news/water-billing-june/" class="news-item">
+          <a href="/news/water-billing-june/" class="news-item rv">
             <div class="date-badge" aria-hidden="true">
               <div class="date-mo">Jun</div>
               <div class="date-day">10</div>
@@ -717,7 +845,7 @@
             </div>
           </a>
 
-          <a href="/news/council-june/" class="news-item">
+          <a href="/news/council-june/" class="news-item rv">
             <div class="date-badge" aria-hidden="true">
               <div class="date-mo">Jun</div>
               <div class="date-day">02</div>
@@ -729,7 +857,7 @@
             </div>
           </a>
 
-          <a href="/news/summer-youth/" class="news-item">
+          <a href="/news/summer-youth/" class="news-item rv">
             <div class="date-badge" aria-hidden="true">
               <div class="date-mo">May</div>
               <div class="date-day">28</div>
@@ -750,7 +878,7 @@
           </div>
           <div class="events-list">
 
-            <a href="/community/events/clean-up/" class="evt">
+            <a href="/community/events/clean-up/" class="evt rv"
               <div class="evt-badge" aria-hidden="true">
                 <div class="evt-mo">Jun</div>
                 <div class="evt-day">21</div>
@@ -761,7 +889,7 @@
               </div>
             </a>
 
-            <a href="/community/events/fireworks/" class="evt">
+            <a href="/community/events/fireworks/" class="evt rv"
               <div class="evt-badge" aria-hidden="true">
                 <div class="evt-mo">Jul</div>
                 <div class="evt-day">04</div>
@@ -772,7 +900,7 @@
               </div>
             </a>
 
-            <a href="/community/events/council-july/" class="evt">
+            <a href="/community/events/council-july/" class="evt rv"
               <div class="evt-badge" aria-hidden="true">
                 <div class="evt-mo">Jul</div>
                 <div class="evt-day">07</div>
@@ -783,7 +911,7 @@
               </div>
             </a>
 
-            <a href="/community/events/roundup/" class="evt">
+            <a href="/community/events/roundup/" class="evt rv"
               <div class="evt-badge" aria-hidden="true">
                 <div class="evt-mo">Aug</div>
                 <div class="evt-day">15</div>
@@ -794,7 +922,7 @@
               </div>
             </a>
 
-            <a href="/community/events/council-aug/" class="evt">
+            <a href="/community/events/council-aug/" class="evt rv"
               <div class="evt-badge" aria-hidden="true">
                 <div class="evt-mo">Aug</div>
                 <div class="evt-day">04</div>
@@ -820,7 +948,7 @@
         </div>
         <div class="dept-grid">
 
-          <div class="dept-card">
+          <div class="dept-card rv"
             <div class="dept-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </div>
@@ -841,7 +969,7 @@
             </div>
           </div>
 
-          <div class="dept-card">
+          <div class="dept-card rv"
             <div class="dept-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
             </div>
@@ -862,7 +990,7 @@
             </div>
           </div>
 
-          <div class="dept-card">
+          <div class="dept-card rv"
             <div class="dept-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             </div>
@@ -883,7 +1011,7 @@
             </div>
           </div>
 
-          <div class="dept-card">
+          <div class="dept-card rv"
             <div class="dept-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             </div>
@@ -969,7 +1097,7 @@
   </footer>
 
   <script>
-    // Mobile nav
+    /* ── Mobile nav ── */
     const toggle = document.getElementById('nav-toggle');
     const nav = document.getElementById('site-nav');
     const closeBtn = document.getElementById('nav-close');
@@ -994,14 +1122,157 @@
       if (e.key === 'Escape' && nav.classList.contains('open')) closeNav();
     });
 
-    // Alert dismiss
+    /* ── Alert dismiss ── */
     const alertBanner = document.getElementById('alert-banner');
     const alertDismiss = document.getElementById('alert-dismiss');
-    if (sessionStorage.getItem('alertDismissed')) alertBanner.classList.add('gone');
+    if (sessionStorage.getItem('alertDismissed')) alertBanner?.classList.add('gone');
     alertDismiss?.addEventListener('click', () => {
       alertBanner.classList.add('gone');
       sessionStorage.setItem('alertDismissed', '1');
     });
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ── Hero canvas constellation ── */
+    (function() {
+      if (reducedMotion) return;
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+
+      const PARTICLE_COUNT = 55;
+      const LINK_DIST = 120;
+      const AMBER = [215, 145, 40];   // rgb approx of oklch(0.62 0.172 56)
+      const WHITE = [255, 255, 255];
+
+      let W, H, particles;
+
+      function resize() {
+        W = canvas.offsetWidth;
+        H = canvas.offsetHeight;
+        canvas.width  = W * devicePixelRatio;
+        canvas.height = H * devicePixelRatio;
+        ctx.scale(devicePixelRatio, devicePixelRatio);
+      }
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      function mkParticle() {
+        return {
+          x: rand(0, W), y: rand(0, H),
+          vx: rand(-0.22, 0.22), vy: rand(-0.14, 0.14),
+          r: rand(1.2, 2.5),
+          color: Math.random() > 0.6 ? AMBER : WHITE,
+          alpha: rand(0.4, 0.9)
+        };
+      }
+
+      function init() {
+        resize();
+        particles = Array.from({length: PARTICLE_COUNT}, mkParticle);
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        for (let i = 0; i < particles.length; i++) {
+          const a = particles[i];
+          for (let j = i + 1; j < particles.length; j++) {
+            const b = particles[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < LINK_DIST) {
+              const opacity = (1 - dist / LINK_DIST) * 0.28;
+              ctx.strokeStyle = `rgba(${AMBER[0]},${AMBER[1]},${AMBER[2]},${opacity})`;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        for (const p of particles) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.color[0]},${p.color[1]},${p.color[2]},${p.alpha})`;
+          ctx.fill();
+
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -5)  p.x = W + 5;
+          if (p.x > W+5) p.x = -5;
+          if (p.y < -5)  p.y = H + 5;
+          if (p.y > H+5) p.y = -5;
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      init();
+      draw();
+      window.addEventListener('resize', () => { resize(); });
+    })();
+
+    /* ── Hero tagline typewriter ── */
+    (function() {
+      if (reducedMotion) return;
+      const el = document.querySelector('.hero-tagline');
+      if (!el) return;
+
+      const full = el.textContent.trim();
+      el.textContent = '';
+      el.style.opacity = '1';
+
+      let i = 0;
+      const delay = 900; // start after hero heading animation settles
+      const speed = 38;  // ms per character
+
+      setTimeout(function type() {
+        if (i <= full.length) {
+          el.textContent = full.slice(0, i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }, delay);
+    })();
+
+    /* ── Scroll reveal (IntersectionObserver) ── */
+    (function() {
+      const els = document.querySelectorAll('.rv');
+      if (!els.length) return;
+
+      if (reducedMotion) {
+        els.forEach(el => el.classList.remove('rv'));
+        return;
+      }
+
+      // Mark off-screen elements as hidden on first pass
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const el = entry.target;
+          if (entry.isIntersecting) {
+            el.classList.remove('rv-hidden');
+            el.classList.add('rv-visible');
+            io.unobserve(el);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      els.forEach((el, idx) => {
+        // Only hide elements that are below the fold at load time
+        const rect = el.getBoundingClientRect();
+        if (rect.top > window.innerHeight * 0.92) {
+          el.classList.add('rv-hidden');
+        }
+        // Stagger siblings within the same parent (cards, events)
+        const siblings = Array.from(el.parentElement?.querySelectorAll('.rv') ?? []);
+        const i = siblings.indexOf(el);
+        if (i > 0) el.style.animationDelay = `${i * 70}ms`;
+        io.observe(el);
+      });
+    })();
   </script>
 
 </body>
