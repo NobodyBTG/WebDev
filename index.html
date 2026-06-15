@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Official website of the City of Munday, Texas — pay your water bill, find city services, and stay connected with local government.">
+  <title>City of Munday — Knox County, Texas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,600;0,700;1,400&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ───────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens ──────────────────────────────────────────────────── */
+    :root {
+      --bg:           oklch(1.000 0.000  0);
+      --surface:      oklch(0.975 0.000  0);
+      --primary:      oklch(0.620 0.172 56);
+      --primary-deep: oklch(0.480 0.160 54);
+      --primary-tint: oklch(0.940 0.040 58);
+      --accent:       oklch(0.300 0.090 252);
+      --accent-card:  oklch(0.260 0.080 252);
+      --accent-border:oklch(0.360 0.085 252);
+      --ink:          oklch(0.150 0.015 56);
+      --muted:        oklch(0.450 0.008 56);
+      --border:       oklch(0.880 0.000  0);
+      --on-amber:     oklch(1.000 0.000  0);
+      --on-navy:      oklch(1.000 0.000  0);
+
+      --font-display: 'Bitter', Georgia, serif;
+      --font-body:    'Public Sans', system-ui, sans-serif;
+
+      --sp-1: .25rem;  --sp-2: .5rem;   --sp-3: .75rem;  --sp-4: 1rem;
+      --sp-5: 1.25rem; --sp-6: 1.5rem;  --sp-8: 2rem;    --sp-10: 2.5rem;
+      --sp-12: 3rem;   --sp-16: 4rem;   --sp-20: 5rem;
+
+      --r-sm: 4px; --r-md: 8px; --r-lg: 12px; --r-pill: 9999px;
+
+      --ease: cubic-bezier(0.25, 1, 0.5, 1);
+      --fast: 150ms; --base: 220ms;
+
+      --max-w: 1200px;
+      --px: clamp(1rem, 4vw, 2rem);
+
+      --z-drop: 100; --z-sticky: 200; --z-modal: 400;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a { color: var(--accent); }
+
+    :focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* ── Layout helpers ──────────────────────────────────────────── */
+    .wrap {
+      max-width: var(--max-w);
+      margin-inline: auto;
+      padding-inline: var(--px);
+    }
+
+    /* ── Skip link ───────────────────────────────────────────────── */
+    .skip {
+      position: absolute;
+      top: -100%;
+      left: var(--sp-4);
+      z-index: 9999;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      padding: var(--sp-2) var(--sp-5);
+      border-radius: var(--r-sm);
+      text-decoration: none;
+      font-family: var(--font-body);
+    }
+    .skip:focus { top: var(--sp-4); }
+
+    /* ── Utility bar ─────────────────────────────────────────────── */
+    .util {
+      background: var(--accent);
+      color: oklch(0.820 0.030 252);
+      font-size: .8125rem;
+    }
+    .util .wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-5);
+      padding-block: var(--sp-2);
+      flex-wrap: wrap;
+    }
+    .util a { color: inherit; }
+    .util-sep { opacity: .35; }
+
+    @media (max-width: 600px) { .util { display: none; } }
+
+    /* ── Site header ─────────────────────────────────────────────── */
+    .hdr {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-sticky);
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .hdr .wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-8);
+      padding-block: var(--sp-3);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+    .logo-seal {
+      width: 46px; height: 46px;
+      background: var(--primary);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .logo-seal svg { width: 26px; height: 26px; }
+    .logo-name {
+      font-family: var(--font-display);
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
+      letter-spacing: -.01em;
+    }
+    .logo-sub {
+      font-size: .75rem;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-1);
+      flex: 1;
+    }
+    .site-nav a {
+      font-size: .9375rem;
+      font-weight: 500;
+      color: var(--ink);
+      text-decoration: none;
+      padding: var(--sp-2) var(--sp-3);
+      border-radius: var(--r-sm);
+      transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+      white-space: nowrap;
+    }
+    .site-nav a:hover { background: var(--primary-tint); color: var(--primary-deep); }
+
+    .hdr-actions { display: flex; align-items: center; gap: var(--sp-3); flex-shrink: 0; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: var(--sp-2);
+      background: var(--primary); color: white;
+      font-family: var(--font-body); font-size: .9375rem; font-weight: 600;
+      text-decoration: none;
+      padding: var(--sp-2) var(--sp-5);
+      border-radius: var(--r-sm); border: none; cursor: pointer;
+      transition: filter var(--fast) var(--ease);
+      white-space: nowrap;
+    }
+    .btn-primary:hover { filter: brightness(.9); color: white; text-decoration: none; }
+
+    .nav-toggle {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      padding: var(--sp-2); color: var(--ink);
+    }
+
+    @media (max-width: 860px) {
+      .site-nav { display: none; }
+      .site-nav.open {
+        display: flex; flex-direction: column; align-items: flex-start;
+        position: fixed; inset: 0;
+        background: var(--bg);
+        padding: var(--sp-16) var(--px) var(--sp-8);
+        z-index: var(--z-modal);
+        gap: var(--sp-1);
+      }
+      .site-nav.open a { font-size: 1.25rem; padding: var(--sp-3) var(--sp-4); width: 100%; }
+      .nav-close {
+        position: fixed; top: var(--sp-4); right: var(--px);
+        background: none; border: none; cursor: pointer;
+        color: var(--ink); z-index: calc(var(--z-modal) + 1); padding: var(--sp-2);
+        display: none;
+      }
+      .nav-close.show { display: block; }
+      .nav-toggle { display: flex; }
+    }
+
+    @media (max-width: 540px) {
+      .hdr-actions .btn-ghost { display: none; }
+    }
+
+    /* ── Alert banner ────────────────────────────────────────────── */
+    .alert {
+      background: var(--primary-tint);
+      border-bottom: 2px solid var(--primary);
+    }
+    .alert .wrap {
+      display: flex; align-items: center; gap: var(--sp-4);
+      padding-block: var(--sp-3);
+    }
+    .alert-icon { flex-shrink: 0; color: var(--primary-deep); }
+    .alert-icon svg { width: 18px; height: 18px; }
+    .alert-body { flex: 1; font-size: .9375rem; color: var(--ink); }
+    .alert-body strong { font-weight: 700; }
+    .alert-body a { color: var(--primary-deep); font-weight: 600; }
+    .alert-dismiss {
+      background: none; border: none; cursor: pointer;
+      padding: var(--sp-1); color: var(--muted);
+      border-radius: var(--r-sm); flex-shrink: 0;
+      transition: color var(--fast) var(--ease);
+    }
+    .alert-dismiss:hover { color: var(--ink); }
+    .alert-dismiss svg { width: 16px; height: 16px; display: block; }
+    .alert.gone { display: none; }
+
+    /* ── Hero ────────────────────────────────────────────────────── */
+    .hero {
+      background: var(--primary-deep);
+      padding-block: clamp(3rem, 8vw, 5rem) 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 20%, oklch(0.560 0.150 55 / .35) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 85% 75%, oklch(0.400 0.140 52 / .25) 0%, transparent 60%);
+    }
+    .hero .wrap { position: relative; z-index: 1; text-align: center; }
+
+    .hero-location {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: .8125rem;
+      font-weight: 600;
+      color: oklch(0.860 0.070 60);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: var(--sp-4);
+    }
+    .hero-heading {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 7vw, 5rem);
+      font-weight: 700;
+      color: white;
+      line-height: 1.1;
+      letter-spacing: -.02em;
+      text-wrap: balance;
+      margin-bottom: var(--sp-4);
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.1875rem);
+      color: oklch(0.880 0.030 58);
+      max-width: 44ch;
+      margin-inline: auto;
+      margin-bottom: clamp(2.5rem, 6vw, 4rem);
+      line-height: 1.55;
+    }
+
+    .hero-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--sp-4);
+      max-width: 840px;
+      margin-inline: auto;
+    }
+    .hero-card {
+      background: white;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+      padding: var(--sp-8) var(--sp-5);
+      text-align: center;
+      text-decoration: none;
+      display: flex; flex-direction: column; align-items: center; gap: var(--sp-3);
+      transition: transform var(--base) var(--ease);
+    }
+    .hero-card:hover { transform: translateY(-5px); text-decoration: none; }
+    .hero-card-icon {
+      width: 48px; height: 48px;
+      background: var(--primary-tint);
+      border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary-deep);
+    }
+    .hero-card-icon svg { width: 24px; height: 24px; }
+    .hero-card-title {
+      font-family: var(--font-display);
+      font-size: 1.0625rem; font-weight: 700;
+      color: var(--ink); line-height: 1.25;
+    }
+    .hero-card-desc { font-size: .875rem; color: var(--muted); line-height: 1.5; }
+    .hero-card-cta { font-size: .875rem; font-weight: 700; color: var(--primary-deep); margin-top: auto; }
+
+    @media (max-width: 680px) {
+      .hero-cards { grid-template-columns: 1fr; max-width: 400px; padding-bottom: var(--sp-12); }
+      .hero-card { border-radius: var(--r-lg); }
+    }
+
+    /* ── Quick services ──────────────────────────────────────────── */
+    .services {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding-block: var(--sp-12);
+    }
+    .services-heading {
+      font-family: var(--font-display);
+      font-size: 1.4375rem; font-weight: 700;
+      color: var(--ink); letter-spacing: -.015em;
+      margin-bottom: var(--sp-6);
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--sp-3);
+    }
+    .svc-link {
+      display: flex; flex-direction: column; align-items: center; gap: var(--sp-2);
+      padding: var(--sp-5) var(--sp-4);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      text-decoration: none; text-align: center;
+      transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+    }
+    .svc-link:hover { border-color: var(--primary); background: var(--primary-tint); text-decoration: none; }
+    .svc-link svg { width: 32px; height: 32px; color: var(--primary-deep); }
+    .svc-label { font-size: .875rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+
+    /* ── Content grid ────────────────────────────────────────────── */
+    .content { padding-block: var(--sp-16) var(--sp-20); }
+    .content .wrap {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: var(--sp-12);
+      align-items: start;
+    }
+    @media (max-width: 860px) {
+      .content .wrap { grid-template-columns: 1fr; }
+    }
+
+    .sec-head {
+      display: flex; align-items: baseline; justify-content: space-between;
+      margin-bottom: var(--sp-6);
+      padding-bottom: var(--sp-4);
+      border-bottom: 2px solid var(--primary);
+    }
+    .sec-head h2 {
+      font-family: var(--font-display);
+      font-size: 1.4375rem; font-weight: 700;
+      color: var(--ink); letter-spacing: -.015em;
+    }
+    .sec-head a { font-size: .875rem; font-weight: 600; white-space: nowrap; }
+
+    /* News */
+    .news-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: var(--sp-5);
+      padding-block: var(--sp-6);
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item:hover .news-title { color: var(--primary-deep); }
+    .news-item:hover { text-decoration: none; }
+
+    .date-badge { display: flex; flex-direction: column; align-items: stretch; }
+    .date-mo {
+      font-size: .625rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .08em;
+      color: white; background: var(--primary-deep);
+      padding: 2px var(--sp-2);
+      border-radius: var(--r-sm) var(--r-sm) 0 0;
+      text-align: center;
+    }
+    .date-day {
+      font-family: var(--font-display);
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--ink); background: var(--surface);
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+      text-align: center; line-height: 1;
+      padding-block: var(--sp-2);
+    }
+    .news-cat {
+      font-size: .75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .07em;
+      color: var(--primary-deep); margin-bottom: 2px;
+    }
+    .news-title {
+      font-family: var(--font-display);
+      font-size: 1.0625rem; font-weight: 600;
+      color: var(--ink); line-height: 1.3;
+      margin-bottom: var(--sp-2);
+      transition: color var(--fast) var(--ease);
+      text-wrap: pretty;
+    }
+    .news-excerpt { font-size: .875rem; color: var(--muted); line-height: 1.55; text-wrap: pretty; }
+
+    /* Events */
+    .events-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+    .evt {
+      display: flex; align-items: center; gap: var(--sp-4);
+      padding: var(--sp-4);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      text-decoration: none;
+      transition: border-color var(--fast) var(--ease), background var(--fast) var(--ease);
+    }
+    .evt:hover { border-color: var(--primary); background: var(--primary-tint); text-decoration: none; }
+    .evt-badge { flex-shrink: 0; width: 46px; }
+    .evt-mo {
+      font-size: .5625rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .06em;
+      color: white; background: var(--primary-deep);
+      padding: 2px; border-radius: var(--r-sm) var(--r-sm) 0 0;
+      text-align: center;
+    }
+    .evt-day {
+      font-family: var(--font-display);
+      font-size: 1.4375rem; font-weight: 700;
+      color: var(--ink); background: white;
+      border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 var(--r-sm) var(--r-sm);
+      text-align: center; line-height: 1; padding-block: var(--sp-1);
+    }
+    .evt-info { flex: 1; }
+    .evt-title { font-size: .9375rem; font-weight: 600; color: var(--ink); line-height: 1.3; }
+    .evt-meta { font-size: .8125rem; color: var(--muted); }
+
+    /* ── Departments ─────────────────────────────────────────────── */
+    .depts {
+      background: var(--accent);
+      padding-block: var(--sp-16);
+    }
+    .depts .sec-head { border-bottom-color: oklch(0.420 0.080 252); }
+    .depts .sec-head h2 { color: white; }
+    .depts .sec-head a { color: oklch(0.750 0.055 252); }
+
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--sp-4);
+    }
+    .dept-card {
+      background: var(--accent-card);
+      border: 1px solid var(--accent-border);
+      border-radius: var(--r-md);
+      padding: var(--sp-6);
+    }
+    .dept-icon { color: oklch(0.760 0.090 58); margin-bottom: var(--sp-4); }
+    .dept-icon svg { width: 36px; height: 36px; }
+    .dept-name {
+      font-family: var(--font-display);
+      font-size: 1.0625rem; font-weight: 700;
+      color: white; margin-bottom: var(--sp-4);
+    }
+    .dept-contacts { display: flex; flex-direction: column; gap: var(--sp-3); }
+    .dept-row {
+      display: flex; align-items: flex-start; gap: var(--sp-2);
+      font-size: .875rem; color: oklch(0.760 0.035 252);
+    }
+    .dept-row svg { width: 13px; height: 13px; flex-shrink: 0; margin-top: 3px; color: oklch(0.640 0.080 58); }
+    .dept-row a { color: oklch(0.780 0.050 252); text-decoration: none; }
+    .dept-row a:hover { color: white; text-decoration: underline; }
+
+    /* ── Footer ──────────────────────────────────────────────────── */
+    .ftr {
+      background: var(--ink);
+      color: oklch(0.650 0.010 56);
+      padding-block: var(--sp-16) var(--sp-12);
+    }
+    .ftr-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: var(--sp-10);
+      margin-bottom: var(--sp-12);
+    }
+    @media (max-width: 860px) { .ftr-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .ftr-grid { grid-template-columns: 1fr; } }
+
+    .ftr-brand-name {
+      font-family: var(--font-display);
+      font-size: 1.1875rem; font-weight: 700;
+      color: white; margin-bottom: var(--sp-1); letter-spacing: -.01em;
+    }
+    .ftr-brand-sub { font-size: .8125rem; color: oklch(0.480 0.008 56); margin-bottom: var(--sp-5); }
+    .ftr-address {
+      font-size: .875rem; line-height: 1.75; font-style: normal;
+      color: oklch(0.620 0.010 56);
+    }
+    .ftr-address a { color: inherit; }
+
+    .ftr-col-head {
+      font-size: .6875rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .1em;
+      color: oklch(0.480 0.008 56);
+      margin-bottom: var(--sp-4);
+    }
+    .ftr-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--sp-2); }
+    .ftr-col a { font-size: .9rem; color: oklch(0.650 0.010 56); text-decoration: none; transition: color var(--fast) var(--ease); }
+    .ftr-col a:hover { color: white; }
+
+    .ftr-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: var(--sp-8);
+      border-top: 1px solid oklch(0.230 0.010 56);
+      gap: var(--sp-4); flex-wrap: wrap;
+      font-size: .8125rem; color: oklch(0.440 0.008 56);
+    }
+    .ftr-bottom a { color: oklch(0.560 0.010 56); }
+
+    /* ── Reduced motion ──────────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to main content</a>
+
+  <!-- Utility bar -->
+  <div class="util" role="complementary" aria-label="Contact information">
+    <div class="wrap">
+      <span>123 N. Main St., Munday, TX 79371</span>
+      <span class="util-sep" aria-hidden="true">|</span>
+      <span><a href="tel:+19404224311">(940) 422-4311</a></span>
+      <span class="util-sep" aria-hidden="true">|</span>
+      <span>Mon – Fri &thinsp; 8:00 am – 5:00 pm</span>
+    </div>
+  </div>
+
+  <!-- Site header -->
+  <header class="hdr" role="banner">
+    <div class="wrap">
+      <a href="/" class="logo" aria-label="City of Munday — Home">
+        <div class="logo-seal" aria-hidden="true">
+          <svg viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="13,1.5 15.5,9 23.5,9 17.2,13.8 19.7,21.3 13,16.8 6.3,21.3 8.8,13.8 2.5,9 10.5,9" fill="white"/>
+          </svg>
+        </div>
+        <div>
+          <div class="logo-name">City of Munday</div>
+          <div class="logo-sub">Knox County, Texas</div>
+        </div>
+      </a>
+
+      <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+        <button class="nav-close" id="nav-close" aria-label="Close navigation">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+        <a href="/government/">Government</a>
+        <a href="/services/">Services</a>
+        <a href="/community/">Community</a>
+        <a href="/news/">News</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+
+      <div class="hdr-actions">
+        <a href="/pay-bill/" class="btn-primary">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Pay Bill
+        </a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Open navigation" aria-controls="site-nav" aria-expanded="false">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Alert banner -->
+  <div class="alert" role="alert" aria-live="polite" id="alert-banner">
+    <div class="wrap">
+      <span class="alert-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </span>
+      <p class="alert-body">
+        <strong>Notice:</strong> City offices will be closed Monday, July 4th for Independence Day.
+        <a href="/pay-bill/">Pay your water bill online</a> any time.
+      </p>
+      <button class="alert-dismiss" id="alert-dismiss" aria-label="Dismiss notice">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-h1">
+      <div class="wrap">
+        <span class="hero-location">Knox County &middot; Texas</span>
+        <h1 class="hero-heading" id="hero-h1">City of Munday</h1>
+        <p class="hero-tagline">Your community. Your city hall. Online.</p>
+
+        <div class="hero-cards">
+          <a href="/pay-bill/" class="hero-card">
+            <div class="hero-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <div class="hero-card-title">Pay Water Bill</div>
+            <p class="hero-card-desc">Pay online 24/7 with card or bank transfer. Fast and secure.</p>
+            <span class="hero-card-cta" aria-hidden="true">Pay now &rarr;</span>
+          </a>
+
+          <a href="/government/meetings/" class="hero-card">
+            <div class="hero-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="hero-card-title">City Council</div>
+            <p class="hero-card-desc">Meeting agendas, minutes, and schedules for city council sessions.</p>
+            <span class="hero-card-cta" aria-hidden="true">View schedule &rarr;</span>
+          </a>
+
+          <a href="/community/events/" class="hero-card">
+            <div class="hero-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="hero-card-title">Community Events</div>
+            <p class="hero-card-desc">Roundup celebrations, parks programs, and local happenings.</p>
+            <span class="hero-card-cta" aria-hidden="true">See events &rarr;</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick services -->
+    <section class="services" aria-labelledby="svc-h2">
+      <div class="wrap">
+        <h2 class="services-heading" id="svc-h2">City Services</h2>
+        <div class="services-grid">
+
+          <a href="/services/utilities/" class="svc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            <span class="svc-label">Utilities &amp; Water</span>
+          </a>
+
+          <a href="/government/permits/" class="svc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            <span class="svc-label">Permits &amp; Licenses</span>
+          </a>
+
+          <a href="/community/parks/" class="svc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 8C8 10 5.9 16.17 3.82 22H5.8c.37-1 .8-1.97 1.2-2.82C9.75 19.72 14.5 19 19 20.5V19c-3-.5-5.5-1.5-7.5-3C14 14 17 11 17 8z"/></svg>
+            <span class="svc-label">Parks &amp; Recreation</span>
+          </a>
+
+          <a href="/services/trash/" class="svc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+            <span class="svc-label">Trash &amp; Recycling</span>
+          </a>
+
+          <a href="/government/agendas/" class="svc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            <span class="svc-label">Meeting Minutes</span>
+          </a>
+
+          <a href="/report/" class="svc-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span class="svc-label">Report an Issue</span>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- News + Events -->
+    <section class="content" aria-label="News and events">
+      <div class="wrap">
+
+        <!-- News -->
+        <div>
+          <div class="sec-head">
+            <h2 id="news-h2">Announcements &amp; News</h2>
+            <a href="/news/">All news &rarr;</a>
+          </div>
+
+          <a href="/news/water-billing-june/" class="news-item">
+            <div class="date-badge" aria-hidden="true">
+              <div class="date-mo">Jun</div>
+              <div class="date-day">10</div>
+            </div>
+            <div>
+              <div class="news-cat">Water &amp; Utilities</div>
+              <div class="news-title">June Water Bills Available — Due July 15</div>
+              <p class="news-excerpt">Monthly utility statements for water and trash are now available online. Auto-pay customers will be processed automatically on the due date.</p>
+            </div>
+          </a>
+
+          <a href="/news/council-june/" class="news-item">
+            <div class="date-badge" aria-hidden="true">
+              <div class="date-mo">Jun</div>
+              <div class="date-day">02</div>
+            </div>
+            <div>
+              <div class="news-cat">City Council</div>
+              <div class="news-title">June Council Meeting Agenda Now Posted</div>
+              <p class="news-excerpt">Items include the annual budget review, street resurfacing allocations for FM 222, and contract renewal for park maintenance. The public is welcome to attend.</p>
+            </div>
+          </a>
+
+          <a href="/news/summer-youth/" class="news-item">
+            <div class="date-badge" aria-hidden="true">
+              <div class="date-mo">May</div>
+              <div class="date-day">28</div>
+            </div>
+            <div>
+              <div class="news-cat">Community</div>
+              <div class="news-title">Summer Youth Recreation Program Starts June 14</div>
+              <p class="news-excerpt">Registration is open for the city's summer program at Munday City Park. Swimming lessons, arts &amp; crafts, and sports for ages 5–16. Spots are limited.</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Events sidebar -->
+        <aside aria-labelledby="evt-h2">
+          <div class="sec-head">
+            <h2 id="evt-h2">Upcoming Events</h2>
+            <a href="/community/events/">Calendar &rarr;</a>
+          </div>
+          <div class="events-list">
+
+            <a href="/community/events/clean-up/" class="evt">
+              <div class="evt-badge" aria-hidden="true">
+                <div class="evt-mo">Jun</div>
+                <div class="evt-day">21</div>
+              </div>
+              <div class="evt-info">
+                <div class="evt-title">Community Clean-Up Day</div>
+                <div class="evt-meta">8:00 am – Noon &middot; Munday City Park</div>
+              </div>
+            </a>
+
+            <a href="/community/events/fireworks/" class="evt">
+              <div class="evt-badge" aria-hidden="true">
+                <div class="evt-mo">Jul</div>
+                <div class="evt-day">04</div>
+              </div>
+              <div class="evt-info">
+                <div class="evt-title">Independence Day Fireworks</div>
+                <div class="evt-meta">Dusk &middot; Munday City Park</div>
+              </div>
+            </a>
+
+            <a href="/community/events/council-july/" class="evt">
+              <div class="evt-badge" aria-hidden="true">
+                <div class="evt-mo">Jul</div>
+                <div class="evt-day">07</div>
+              </div>
+              <div class="evt-info">
+                <div class="evt-title">City Council Meeting</div>
+                <div class="evt-meta">6:00 pm &middot; City Hall, Council Chambers</div>
+              </div>
+            </a>
+
+            <a href="/community/events/roundup/" class="evt">
+              <div class="evt-badge" aria-hidden="true">
+                <div class="evt-mo">Aug</div>
+                <div class="evt-day">15</div>
+              </div>
+              <div class="evt-info">
+                <div class="evt-title">Munday Roundup Celebration</div>
+                <div class="evt-meta">All day &middot; Downtown Munday</div>
+              </div>
+            </a>
+
+            <a href="/community/events/council-aug/" class="evt">
+              <div class="evt-badge" aria-hidden="true">
+                <div class="evt-mo">Aug</div>
+                <div class="evt-day">04</div>
+              </div>
+              <div class="evt-info">
+                <div class="evt-title">City Council Meeting</div>
+                <div class="evt-meta">6:00 pm &middot; City Hall, Council Chambers</div>
+              </div>
+            </a>
+
+          </div>
+        </aside>
+
+      </div>
+    </section>
+
+    <!-- Departments -->
+    <section class="depts" aria-labelledby="dept-h2">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="dept-h2">City Departments</h2>
+          <a href="/government/departments/">All departments &rarr;</a>
+        </div>
+        <div class="dept-grid">
+
+          <div class="dept-card">
+            <div class="dept-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>
+            <div class="dept-name">City Hall</div>
+            <div class="dept-contacts">
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 13 19.79 19.79 0 0 1 1 4.18a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+                <a href="tel:+19404224311">(940) 422-4311</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <a href="mailto:cityhall@mundaytexas.com">cityhall@mundaytexas.com</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>Mon – Fri: 8:00 am – 5:00 pm</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dept-card">
+            <div class="dept-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <div class="dept-name">Water &amp; Utilities</div>
+            <div class="dept-contacts">
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 13 19.79 19.79 0 0 1 1 4.18a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+                <a href="tel:+19404224311">(940) 422-4311 ext. 2</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <a href="mailto:utilities@mundaytexas.com">utilities@mundaytexas.com</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span>After-hours emergencies: <a href="tel:+19404224911">(940) 422-4911</a></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dept-card">
+            <div class="dept-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="dept-name">Police Department</div>
+            <div class="dept-contacts">
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 13 19.79 19.79 0 0 1 1 4.18a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+                <a href="tel:+19404221950">(940) 422-1950</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <a href="mailto:police@mundaytexas.com">police@mundaytexas.com</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                <span>Emergency: <a href="tel:911">9-1-1</a></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dept-card">
+            <div class="dept-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            </div>
+            <div class="dept-name">Streets &amp; Public Works</div>
+            <div class="dept-contacts">
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.07 13 19.79 19.79 0 0 1 1 4.18a2 2 0 0 1 2-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+                <a href="tel:+19404224311">(940) 422-4311 ext. 3</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <a href="mailto:publicworks@mundaytexas.com">publicworks@mundaytexas.com</a>
+              </div>
+              <div class="dept-row">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <a href="/report/">Report a street issue</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="ftr" role="contentinfo">
+    <div class="wrap">
+      <div class="ftr-grid">
+
+        <div>
+          <div class="ftr-brand-name">City of Munday</div>
+          <div class="ftr-brand-sub">Knox County, Texas — Established 1911</div>
+          <address class="ftr-address">
+            123 N. Main Street, P.O. Box 370<br>
+            Munday, TX 79371<br><br>
+            <a href="tel:+19404224311">(940) 422-4311</a><br>
+            <a href="mailto:cityhall@mundaytexas.com">cityhall@mundaytexas.com</a>
+          </address>
+        </div>
+
+        <nav class="ftr-col" aria-label="Government links">
+          <div class="ftr-col-head">Government</div>
+          <ul>
+            <li><a href="/government/mayor/">Mayor &amp; Council</a></li>
+            <li><a href="/government/meetings/">Council Meetings</a></li>
+            <li><a href="/government/agendas/">Agendas &amp; Minutes</a></li>
+            <li><a href="/government/ordinances/">City Ordinances</a></li>
+            <li><a href="/government/permits/">Permits</a></li>
+          </ul>
+        </nav>
+
+        <nav class="ftr-col" aria-label="Services links">
+          <div class="ftr-col-head">Services</div>
+          <ul>
+            <li><a href="/pay-bill/">Pay Water Bill</a></li>
+            <li><a href="/services/utilities/">Utilities</a></li>
+            <li><a href="/services/trash/">Trash &amp; Recycling</a></li>
+            <li><a href="/community/parks/">Parks</a></li>
+            <li><a href="/report/">Report an Issue</a></li>
+          </ul>
+        </nav>
+
+        <nav class="ftr-col" aria-label="About links">
+          <div class="ftr-col-head">About Munday</div>
+          <ul>
+            <li><a href="/about/">About Our City</a></li>
+            <li><a href="/community/events/">Events Calendar</a></li>
+            <li><a href="/news/">News &amp; Notices</a></li>
+            <li><a href="/contact/">Contact Us</a></li>
+            <li><a href="/accessibility/">Accessibility</a></li>
+          </ul>
+        </nav>
+
+      </div>
+
+      <div class="ftr-bottom">
+        <p>&copy; 2025 City of Munday, Texas. All rights reserved.</p>
+        <p><a href="/privacy/">Privacy Policy</a> &nbsp;&middot;&nbsp; <a href="/sitemap/">Sitemap</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav
+    const toggle = document.getElementById('nav-toggle');
+    const nav = document.getElementById('site-nav');
+    const closeBtn = document.getElementById('nav-close');
+
+    function openNav() {
+      nav.classList.add('open');
+      closeBtn.classList.add('show');
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeNav() {
+      nav.classList.remove('open');
+      closeBtn.classList.remove('show');
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    toggle.addEventListener('click', openNav);
+    closeBtn.addEventListener('click', closeNav);
+    nav.addEventListener('click', e => { if (e.target.tagName === 'A') closeNav(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && nav.classList.contains('open')) closeNav();
+    });
+
+    // Alert dismiss
+    const alertBanner = document.getElementById('alert-banner');
+    const alertDismiss = document.getElementById('alert-dismiss');
+    if (sessionStorage.getItem('alertDismissed')) alertBanner.classList.add('gone');
+    alertDismiss?.addEventListener('click', () => {
+      alertBanner.classList.add('gone');
+      sessionStorage.setItem('alertDismissed', '1');
+    });
+  </script>
+
+</body>
+</html>
