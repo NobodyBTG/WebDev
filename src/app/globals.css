@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-garage-950 text-garage-300 antialiased;
+}
+
+/* Big profit numbers */
+.stat-number {
+  @apply font-mono text-2xl font-bold tracking-tight md:text-3xl;
+}
+
+/* Tables */
+.data-table {
+  @apply w-full text-left text-sm;
+}
+.data-table th {
+  @apply sticky top-0 whitespace-nowrap border-b border-garage-700 bg-garage-900 px-2 py-2 text-xs font-semibold uppercase tracking-wide text-garage-400;
+}
+.data-table td {
+  @apply border-b border-garage-800 px-2 py-1.5 align-middle;
+}
+.data-table tr:hover td {
+  @apply bg-garage-850;
+}
+
+/* Inline-editable number inputs inside tables */
+.cell-input {
+  @apply w-20 rounded border border-transparent bg-transparent px-1 py-0.5 text-right font-mono text-sm text-garage-300 hover:border-garage-600 focus:border-accent focus:bg-garage-900 focus:outline-none;
+}
+
+/* Print styles for PDF export */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-block {
+    display: block !important;
+  }
+  .data-table th {
+    position: static;
+    background: #eee;
+    color: #000;
+  }
+  .data-table td {
+    border-color: #ccc;
+  }
+  * {
+    box-shadow: none !important;
+  }
+}
